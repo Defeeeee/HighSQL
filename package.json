@@ -1,0 +1,22 @@
+{
+  "name": "highsql",
+  "version": "1.0.0",
+  "description": "High level MySQL utility",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "build": "tsc"
+  },
+  "author": "Defee",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "mysql2": "^3.10.1",
+    "ts-node": "^10.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "typescript": "^5.5.2"
+  }
+}
