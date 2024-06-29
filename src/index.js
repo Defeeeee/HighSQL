@@ -24,7 +24,7 @@ class Connection {
             return result;
         }
         catch (error) {
-            console.error('Error executing query:', error); // Or use your preferred logging mechanism
+            console.error('Error executing query:', error);
             throw error; // Re-throw the error to handle it at a higher level
         }
         finally {
