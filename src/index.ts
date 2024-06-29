@@ -1,53 +1,62 @@
-import {createConnection} from 'mysql2/promise';
+import {createPool, Pool, PoolConnection, RowDataPacket, ResultSetHeader} from 'mysql2/promise';
 
-export class Connection {
-    private host: string;
-    private user: string;
-    private password: string;
-    private database: string;
-    private conn: any;
+class Connection {
+    private pool: Pool;
 
-    constructor(host: string, user: string, password: string, database: string) {
-        this.host = host;
-        this.user = user;
-        this.password = password;
-        this.database = database;
-    }
-
-    async connect() {
-        this.conn = await createConnection({
+    constructor(
+        private host: string,
+        private user: string,
+        private password: string,
+        private database: string,
+        private connectionLimit: number = 10
+    ) {
+        this.pool = createPool({
             host: this.host,
             user: this.user,
             password: this.password,
-            database: this.database
-            });
+            database: this.database,
+            connectionLimit: this.connectionLimit
+        });
     }
 
-    async select(columns: string, table: string, where?: string) {
-        if (!where) {
-            return await this.conn.query('SELECT ? FROM ?', [columns, table]);
+    private async getConnection(): Promise<PoolConnection> {
+        return this.pool.getConnection();
+    }
+
+    private async query(sql: string, values?: any[]): Promise<ResultSetHeader | RowDataPacket[] | RowDataPacket[][] | any> {
+        const connection = await this.getConnection();
+        try {
+            const [result] = await connection.query(sql, values);
+            return result;
+        } catch (error) {
+            console.error('Error executing query:', error); // Or use your preferred logging mechanism
+            throw error; // Re-throw the error to handle it at a higher level
+        } finally {
+            connection.release();
         }
-        return await this.conn.query('SELECT ? FROM ? WHERE ?', [columns, table, where]);
     }
 
-    async insert(table: string, values: string) {
-        return await this.conn.query('INSERT INTO ? VALUES ?', [table, values]);
+    async select(table: string, columns: string = '*', where?: string, params?: any[]): Promise<RowDataPacket[]> {
+        let sql = `SELECT ${columns} FROM ${table}`;
+        if (where) {
+            sql += ` WHERE ${where}`;
+        }
+        return await this.query(sql, params) as Promise<RowDataPacket[]>;
     }
 
-    async update(table: string, values: string, where: string) {
-        return await this.conn.query('UPDATE ? SET ? WHERE ?', [table, values, where]);
+    async insert(table: string, values: any): Promise<ResultSetHeader> {
+        const sql = `INSERT INTO ${table} SET ?`;
+        return await this.query(sql, values) as Promise<ResultSetHeader>;
     }
 
-    async delete(table: string, where: string) {
-        return await this.conn.query('DELETE FROM ? WHERE ?', [table, where]);
+    async update(table: string, values: any, where: string, params?: any[]): Promise<ResultSetHeader> {
+        const sql = `UPDATE ${table} SET ? WHERE ${where}`;
+        return this.query(sql, [values, ...(params || [])]) as Promise<ResultSetHeader>;
     }
 
-    async close() {
-        await this.conn.end();
-    }
-
-    async query(sql: string) {
-        return await this.conn.query(sql);
+    async delete(table: string, where: string, params?: any[]): Promise<ResultSetHeader> {
+        const sql = `DELETE FROM ${table} WHERE ${where}`;
+        return this.query(sql, params || []) as Promise<ResultSetHeader>;
     }
 }
 
