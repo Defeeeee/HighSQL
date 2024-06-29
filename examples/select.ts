@@ -1,3 +1,4 @@
+// @ts-ignore
 import Connection from 'highsql';
 
 const connection = new Connection('localhost', 'root', 'password', 'database');
