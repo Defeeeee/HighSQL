@@ -14,13 +14,13 @@ A simple and secure Node.js module for managing MySQL database connections.
 
 ## Installation
 
-```
+```bash
 npm install highsql
 ```
 
 ## Usage
 
-```
+```js
 import Connection from 'highsql';
 
 async function main() {
