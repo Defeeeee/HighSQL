@@ -1,7 +1,7 @@
 import { createPool, Pool, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 
 // Define the Connection class
-class Connection {
+export class Connection {
     private pool: Pool;
 
     // Constructor for the Connection class
@@ -68,6 +68,3 @@ class Connection {
         return this.query<ResultSetHeader>(sql, params || []);
     }
 }
-
-// Export the Connection class
-export default Connection;

@@ -1,6 +1,6 @@
 import { createPool } from 'mysql2/promise';
 // Define the Connection class
-class Connection {
+export class Connection {
     // Constructor for the Connection class
     constructor(host, user, password, database, connectionLimit = 10, port = 3306) {
         this.host = host;
@@ -61,5 +61,3 @@ class Connection {
         return this.query(sql, params || []);
     }
 }
-// Export the Connection class
-export default Connection;
