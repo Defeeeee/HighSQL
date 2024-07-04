@@ -67,4 +67,9 @@ export class Connection {
         const sql = `DELETE FROM ${table} WHERE ${where}`;
         return this.query<ResultSetHeader>(sql, params || []);
     }
+
+    // Method to close the connection pool
+    async close(): Promise<void> {
+        await this.pool.end();
+    }
 }
