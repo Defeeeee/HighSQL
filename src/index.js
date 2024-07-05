@@ -64,4 +64,8 @@ export class Connection {
     async close() {
         await this.pool.end();
     }
+    // Method to get the connection pool
+    getPool() {
+        return this.pool;
+    }
 }
