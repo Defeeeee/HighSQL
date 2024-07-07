@@ -1,5 +1,7 @@
 import { createPool, Pool, RowDataPacket, ResultSetHeader } from 'mysql2/promise';
 
+import {DatabaseError, QueryError} from './errors';
+
 // Define the Connection class
 export class Connection {
     private pool: Pool;
@@ -14,14 +16,26 @@ export class Connection {
         private port: number = 3306,
     ) {
         // Create a new connection pool
-        this.pool = createPool({
-            host: this.host,
-            user: this.user,
-            password: this.password,
-            database: this.database,
-            connectionLimit: this.connectionLimit,
-            port: this.port,
-        });
+        try {
+            this.pool = createPool({
+                host: this.host,
+                user: this.user,
+                password: this.password,
+                database: this.database,
+                connectionLimit: this.connectionLimit,
+                port: this.port,
+            });
+        } catch (error) {
+            // Log and throw the error if the connection pool fails to create
+            if (error instanceof Error) {
+                console.error(error.message);
+                throw new DatabaseError(error.message);
+            }
+            else {
+                console.error('An unknown error occurred.');
+                throw new DatabaseError('An unknown error occurred.')
+            }
+        }
     }
 
     // Method to execute a query
@@ -33,8 +47,14 @@ export class Connection {
             return rows as T;
         } catch (error) {
             // Log and throw the error if the query fails
-            console.error('Error executing query:', error);
-            throw error;
+            if (error instanceof Error) {
+                console.error(error.message);
+                throw new QueryError(error.message);
+            }
+            else {
+                console.error('An unknown error occurred.');
+                throw new QueryError('An unknown error occurred.')
+            }
         } finally {
             // Release the connection back to the pool
             connection.release();
@@ -70,7 +90,20 @@ export class Connection {
 
     // Method to close the connection pool
     async close(): Promise<void> {
-        await this.pool.end();
+        try {
+            await this.pool.end();
+        } catch (error) {
+            // Log and throw the error if the connection pool fails to close
+            if (error instanceof Error) {
+                console.error(error.message);
+                throw new DatabaseError(error.message);
+            }
+            else {
+                console.error('An unknown error occurred.');
+                throw new DatabaseError('An unknown error occurred.')
+            }
+        }
+
     }
 
     // Method to get the connection pool
