@@ -147,3 +147,5 @@ export class Connection {
         return this.pool;
     }
 }
+
+export default Connection;
