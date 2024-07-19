@@ -50,7 +50,7 @@ export class Connection {
     ): Promise<T> {
         const connection = await this.pool.getConnection()
         try {
-            const [rows] = await connection.query(sql, values);
+            const [rows] = await this.pool.query(sql, values);
             return rows as T;
         } catch (error) {
             // Log and throw a QueryError on error

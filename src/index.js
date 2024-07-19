@@ -29,7 +29,7 @@ export class Connection {
     async query(sql, values) {
         const connection = await this.pool.getConnection();
         try {
-            const [rows] = await connection.query(sql, values);
+            const [rows] = await this.pool.query(sql, values);
             return rows;
         }
         catch (error) {
