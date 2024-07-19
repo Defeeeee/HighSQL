@@ -27,7 +27,7 @@ export class Connection {
     }
     // Generic query method with improved error logging
     async query(sql, values) {
-        const connection = this.pool;
+        const connection = await this.pool.getConnection();
         try {
             const [rows] = await connection.query(sql, values);
             return rows;
