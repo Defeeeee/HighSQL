@@ -1,6 +1,6 @@
 {
   "name": "highsql",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "High level MySQL utility",
   "main": "./src/index.js",
   "scripts": {
@@ -13,9 +13,5 @@
   "type": "module",
   "dependencies": {
     "mysql2": "^3.10.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.14.9",
-    "typescript": "^5.5.2"
   }
 }

@@ -48,7 +48,7 @@ export class Connection {
         sql: string,
         values?: any[]
     ): Promise<T> {
-        const connection = await this.pool.getConnection();
+        const connection = this.pool
         try {
             const [rows] = await connection.query(sql, values);
             return rows as T;
