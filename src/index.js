@@ -18,7 +18,7 @@
  * - `getPool`: Returns the connection pool.
  */
 import { createPool } from 'mysql2/promise';
-import { DatabaseError, QueryError } from './errors';
+import { DatabaseError, QueryError } from './errors.js';
 export class Connection {
     // Constructor takes a configuration object and creates a connection pool
     constructor(config) {

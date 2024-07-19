@@ -19,7 +19,7 @@
  */
 
 import {createPool, Pool, RowDataPacket, ResultSetHeader} from 'mysql2/promise';
-import {DatabaseError, QueryError} from './errors';
+import {DatabaseError, QueryError} from './errors.js';
 
 // Interface to define connection configuration
 export interface ConnectionConfig {
