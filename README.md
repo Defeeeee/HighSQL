@@ -1,58 +1,97 @@
-# MySQL Connection Manager
+# MySQL Database Connection
 
-[![npm version](https://img.shields.io/npm/v/highsql.svg)](https://www.npmjs.com/package/highsql)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-A simple and secure Node.js module for managing MySQL database connections.
+A TypeScript module for handling MySQL database connections and performing queries.
 
 ## Features
 
-* **Promise-based:** Utilizes `mysql2/promise` for a modern asynchronous interface.
-* **Connection Pooling:** Efficiently manages multiple connections for optimal performance.
-* **Prepared Statements:** Prioritizes security against SQL injection attacks.
-* **Flexible Queries:** Allows executing arbitrary SQL statements (with caution).
+- **Promise-based:** Utilizes `mysql2/promise` for a modern asynchronous interface.
+- **Connection Pooling:** Efficiently manages multiple connections for optimal performance.
+- **Prepared Statements:** Prioritizes security against SQL injection attacks.
+- **Flexible Queries:** Allows executing arbitrary SQL statements.
+- **Convenience Methods:** Provides methods for common operations like `select`, `insert`, `update`, and `delete`.
+- **Transactions:** Supports executing multiple queries in a transaction.
+- **Error Handling:** Includes robust error handling for queries and connection management.
 
 ## Installation
 
 ```bash
-npm install highsql
+npm install mysql2
 ```
 
 ## Usage
 
 ```js
-import Connection from 'highsql';
+import { Connection, ConnectionConfig } from 'mysql-connection'; // Replace with the actual path to your module
 
 async function main() {
-const conn = new Connection('your_host', 'your_user', 'your_password', 'your_database');
+const config: ConnectionConfig = {
+host: 'your_host',
+user: 'your_user',
+password: 'your_password',
+database: 'your_database'
+};
+
+    const conn = new Connection(config);
 
     // Example: Select data
     const rows = await conn.select('users', 'id, name', 'id = ?', [1]);
+    console.log(rows);
 
-    // Example: Insert data (use prepared statements!)
-    await conn.insert('users', { name: 'Alice', email: 'alice@example.com' });
+    // Example: Insert data
+    const result = await conn.insert('users', { name: 'Bob', email: 'bob@example.com' });
+    console.log(result);
 
     // Example: Update data
-    await conn.update('users', { email: 'alice@highsql.com' }, 'id = ?', [1]);
+    await conn.update('users', { email: 'bob@newmail.com' }, 'id = ?', [1]);
 
     // Example: Delete data
     await conn.delete('users', 'id = ?', [1]);
+
+    // Example: Transaction
+    await conn.transaction(async (connection) => {
+        await connection.insert('users', { name: 'Charlie', email: 'charlie@example.com' });
+        await connection.update('users', { email: 'charlie@newmail.com' }, 'id = ?', [2]); // Assuming Charlie has ID 2
+    });
+
+    await conn.close(); // Close the connection pool when done
 }
 
-main();
+main().catch(error => {
+console.error('Error:', error);
+});
 ```
 
 
-## Functions
+## API
 
-| Function | Description | Parameters | Returns |
-|---|---|---|---|
-| `select(table, columns, where?, params?)` | Executes a SELECT query. | `table`, `columns`, optional `where` condition, optional array of `params` for prepared statements | `Promise<RowDataPacket[]>` |
-| `insert(table, values)` | Executes an INSERT query. | `table`, an object of `values` to insert | `Promise<ResultSetHeader>` |
-| `update(table, values, where, params?)` | Executes an UPDATE query. | `table`, an object of `values` to update, `where` condition, optional array of `params` | `Promise<ResultSetHeader>` |
-| `delete(table, where, params?)` | Executes a DELETE query. | `table`, `where` condition, optional array of `params` | `Promise<ResultSetHeader>` |
-| `query(sql, values?)` | Executes an arbitrary SQL statement (use with caution!). | `sql` statement, optional array of `values` for prepared statements | `Promise<ResultSetHeader | RowDataPacket[] | RowDataPacket[][] | any>` |
+```
+### Connection(config: ConnectionConfig)
+
+Creates a new `Connection` object.
+
+- `config`: A configuration object of type `ConnectionConfig` containing database connection details.
+
+### Methods
+
+- `query<T>(sql: string, values?: any[]): Promise<T>`: Executes a SQL query with optional values.
+- `select(table: string, columns?: string, where?: string, params?: any[]): Promise<RowDataPacket[]>`: Executes a `SELECT` query.
+- `insert(table: string, values: any): Promise<ResultSetHeader>`: Executes an `INSERT` query.
+- `update(table: string, values: any, where: string, params?: any[]): Promise<ResultSetHeader>`: Executes an `UPDATE` query.
+- `delete(table: string, where: string, params?: any[]): Promise<ResultSetHeader>`: Executes a `DELETE` query.
+- `get(table: string, where: string, params?: any[]): Promise<RowDataPacket | null>`: Retrieves a single row based on a condition.
+- `getByID(table: string, id: number): Promise<RowDataPacket | null>`: Retrieves a single row by its ID.
+- `count(table: string, where?: string, params?: any[]): Promise<number>`: Counts rows based on a condition.
+- `exists(table: string, where: string, params?: any[]): Promise<boolean>`: Checks if any rows match a condition.
+- `transaction(queries: (connection: Connection) => Promise<any>): Promise<any>`: Executes multiple queries in a transaction.
+- `close(): Promise<void>`: Closes the connection pool.
+- `getPool(): Pool`: Returns the underlying connection pool.
+  ```
+
+
+## Error Handling
+
+The module includes error handling for both query errors and connection pool errors. Errors are logged to the console with detailed information, including the error message, query, and values (if applicable). Custom error classes `QueryError` and `DatabaseError` are thrown to help differentiate between the types of errors.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License
