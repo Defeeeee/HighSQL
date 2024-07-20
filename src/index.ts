@@ -69,12 +69,13 @@ export class Connection {
     }
 
     // Convenience methods for common operations
-    async select(table: string, columns: string = '*', where?: string, params?: any[]): Promise<RowDataPacket[]> {
+    async select(table: string, columns: string = '*', where?: string, params?: any[]): Promise<RowDataPacket> {
         let sql = `SELECT ${columns} FROM ${table}`;
         if (where) {
             sql += ` WHERE ${where}`;
         }
-        return this.query<RowDataPacket[]>(sql, params);
+        const [res, _] = await this.query<RowDataPacket[]>(sql, params || []);
+        return res;
     }
 
     async insert(table: string, values: any): Promise<ResultSetHeader> {

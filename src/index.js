@@ -56,7 +56,8 @@ export class Connection {
         if (where) {
             sql += ` WHERE ${where}`;
         }
-        return this.query(sql, params);
+        const [res, _] = await this.query(sql, params || []);
+        return res;
     }
     async insert(table, values) {
         const sql = `INSERT INTO ${table} SET ?`;
