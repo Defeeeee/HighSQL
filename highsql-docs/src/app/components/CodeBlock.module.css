@@ -1,0 +1,88 @@
+/* Overall Page Styling */
+.container {
+    display: flex;
+    min-height: 100vh; /* Ensure full viewport height */
+    background-color: #f8f9fa; /* Light background for the entire container */
+}
+
+.sidebar {
+    width: 250px; /* Adjust the width as needed */
+    background-color: #343a40; /* Dark sidebar background */
+    color: #fff; /* Light text color */
+    padding: 1rem;
+}
+
+.sidebarTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.sidebarLink {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.sidebarLink:hover,
+.active {
+    background-color: #495057; /* Hover and active state background */
+}
+
+.sidebarSublink {
+    display: block;
+    padding: 0.4rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.sidebarSublink:hover,
+.active {
+    background-color: #495057; /* Hover and active state background */
+}
+
+.content {
+    flex: 1;  /* Takes up remaining space */
+    padding: 1rem 2rem; /* Added right padding for better visual balance */
+}
+
+/* Heading Styles */
+.heading1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #333; /* Darker text for headings */
+}
+
+.heading2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+    color: #333;
+}
+
+.heading3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #444; /* Slightly lighter for subheadings */
+}
+
+/* Paragraph and Text Styling */
+.paragraph {
+    margin-bottom: 1rem;
+}
+
+.unorderedList {
+    list-style: disc;
+    padding-left: 2rem;
+}
+
+.listItem {
+    margin-bottom: 0.5rem;
+}

@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #111827;
+    --secondary-color: #1f2937;
+    --text-color: #e5e7eb;
+    --accent-color: #6366f1;
+    --code-background: #272822;
+    --code-text-color: #f8f8f2;
+    --list-item-indent: 1.5rem;
+}
+
+
+
+body {
+    font-family: 'Public Sans', sans-serif;
+    margin: 0;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}

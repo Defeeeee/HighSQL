@@ -1,0 +1,125 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-color);
+    padding: 1.5rem 1rem;
+    border-right: 1px solid var(--border-color);
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* Sidebar */
+.sidebarTitle {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--text-color);
+    letter-spacing: 0.05em;
+}
+
+/* Nested lists for sections and methods */
+.sidebar > nav > ul, .sidebar > nav > ul > li > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebarLink {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+    border-radius: 0.375rem;
+    text-align: left;
+}
+
+/* Sidebar Sublinks (Nested Items) */
+.sidebarSublink {
+    display: block;
+    width: calc(100% - 1rem); /* Full width with padding on the right side */
+    padding: 0.5rem 1rem 0.5rem 1.5rem; /* Indentation and padding */
+    color: var(--text-color);
+    text-decoration: none;
+    margin-bottom: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+    border: none;
+    background-color: transparent;
+    border-radius: 0; /* Remove border-radius for nested items */
+    text-align: left;
+}
+
+/* Hover/Focus States */
+.sidebarLink:hover,
+.sidebarSublink:hover,
+.sidebarLink:focus,
+.sidebarSublink:focus {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Active State */
+.sidebarLink.active,
+.sidebarSublink.active {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+}
+
+
+/* Main Content */
+.section {
+    margin-bottom: 4rem;
+}
+
+/* ... (Rest of your existing styles for headings, paragraphs, etc.) ... */
+
+
+
+.heading1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    letter-spacing: -0.025em; /* Slightly tighter letter spacing */
+}
+
+.heading2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.heading3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.paragraph {
+    margin-bottom: 1.5rem;
+    line-height: 1.75;
+    font-size: 1.05rem; /* Slightly larger font size */
+}
+
+
+.unorderedList {
+    list-style: disc;
+    padding-left: 2rem;
+}
+
+.listItem {
+    margin-bottom: 0.5rem;
+}
