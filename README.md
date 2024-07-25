@@ -64,7 +64,6 @@ console.error('Error:', error);
 
 ## API
 
-```
 ### Connection(config: ConnectionConfig)
 
 Creates a new `Connection` object.
@@ -85,7 +84,6 @@ Creates a new `Connection` object.
 - `transaction(queries: (connection: Connection) => Promise<any>): Promise<any>`: Executes multiple queries in a transaction.
 - `close(): Promise<void>`: Closes the connection pool.
 - `getPool(): Pool`: Returns the underlying connection pool.
-  ```
 
 
 ## Error Handling
