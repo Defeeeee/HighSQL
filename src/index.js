@@ -118,9 +118,17 @@ export class Connection {
             }
         }
     }
-    // Access the pool directly (if needed)
-    getPool() {
+    async getPool() {
         return this.pool;
+    }
+    async getPoolConnection() {
+        return this.pool.getConnection();
+    }
+    async releasePoolConnection(connection) {
+        connection.release();
+    }
+    async escape(value) {
+        return this.pool.escape(value);
     }
 }
 export default Connection;

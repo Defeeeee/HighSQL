@@ -143,9 +143,20 @@ export class Connection {
         }
     }
 
-    // Access the pool directly (if needed)
-    getPool(): Pool {
+    async getPool(): Promise<Pool> {
         return this.pool;
+    }
+
+    async getPoolConnection(): Promise<any> {
+        return this.pool.getConnection();
+    }
+
+    async releasePoolConnection(connection: any): Promise<void> {
+        connection.release();
+    }
+
+    async escape(value: any): Promise<string> {
+        return this.pool.escape(value);
     }
 }
 
