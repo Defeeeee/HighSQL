@@ -144,15 +144,48 @@ export class Connection {
     }
 
     async getPool(): Promise<Pool> {
-        return this.pool;
+        try {
+            return this.pool;
+        } catch (error) {
+            // Log and throw a DatabaseError on error
+            if (error instanceof Error) {
+                console.error('Pool retrieval error:', error.message);
+                throw new DatabaseError(error.message);
+            } else {
+                console.error('An unknown pool retrieval error occurred.');
+                throw new DatabaseError('An unknown pool retrieval error occurred.');
+            }
+        }
     }
 
     async getPoolConnection(): Promise<any> {
-        return this.pool.getConnection();
+        try {
+            return this.pool.getConnection();
+        } catch (error) {
+            // Log and throw a DatabaseError on error
+            if (error instanceof Error) {
+                console.error('Pool connection retrieval error:', error.message);
+                throw new DatabaseError(error.message);
+            } else {
+                console.error('An unknown pool connection retrieval error occurred.');
+                throw new DatabaseError('An unknown pool connection retrieval error occurred.');
+            }
+        }
     }
 
     async releasePoolConnection(connection: any): Promise<void> {
-        connection.release();
+        try {
+            connection.release();
+        } catch (error) {
+            // Log and throw a DatabaseError on error
+            if (error instanceof Error) {
+                console.error('Pool connection release error:', error.message);
+                throw new DatabaseError(error.message);
+            } else {
+                console.error('An unknown pool connection release error occurred.');
+                throw new DatabaseError('An unknown pool connection release error occurred.');
+            }
+        }
     }
 
     async escape(value: any): Promise<string> {
